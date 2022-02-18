@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OnlineTrainingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Course_Registration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainingName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fees" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Home_page">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainingName" Type="varchar" MaxLength="50" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Fees" Type="int" />
+        </EntityType>
+        <EntityType Name="Registered_courses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainingName" Type="varchar" MaxLength="50" />
+          <Property Name="Course_id" Type="int" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+          <Property Name="Fees" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User_Registration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Registered_courses_Course_Registration">
+          <End Role="Course_Registration" Type="Self.Course_Registration" Multiplicity="0..1" />
+          <End Role="Registered_courses" Type="Self.Registered_courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course_Registration">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Registered_courses">
+              <PropertyRef Name="Course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OnlineTrainingDBModelStoreContainer">
+          <EntitySet Name="Course_Registration" EntityType="Self.Course_Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Home_page" EntityType="Self.Home_page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registered_courses" EntityType="Self.Registered_courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Registration" EntityType="Self.User_Registration" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Registered_courses_Course_Registration" Association="Self.FK_Registered_courses_Course_Registration">
+            <End Role="Course_Registration" EntitySet="Course_Registration" />
+            <End Role="Registered_courses" EntitySet="Registered_courses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OnlineTrainingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Course_Registration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainingName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fees" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Registered_courses" Relationship="Self.FK_Registered_courses_Course_Registration" FromRole="Course_Registration" ToRole="Registered_courses" />
+        </EntityType>
+        <EntityType Name="Registered_courses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainingName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Course_id" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fees" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Course_Registration" Relationship="Self.FK_Registered_courses_Course_Registration" FromRole="Registered_courses" ToRole="Course_Registration" />
+        </EntityType>
+        <EntityType Name="User_Registration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Registered_courses_Course_Registration">
+          <End Role="Course_Registration" Type="Self.Course_Registration" Multiplicity="0..1" />
+          <End Role="Registered_courses" Type="Self.Registered_courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course_Registration">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Registered_courses">
+              <PropertyRef Name="Course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OnlineTrainingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Course_Registration" EntityType="Self.Course_Registration" />
+          <EntitySet Name="Registered_courses" EntityType="Self.Registered_courses" />
+          <EntitySet Name="User_Registration" EntityType="Self.User_Registration" />
+          <AssociationSet Name="FK_Registered_courses_Course_Registration" Association="Self.FK_Registered_courses_Course_Registration">
+            <End Role="Course_Registration" EntitySet="Course_Registration" />
+            <End Role="Registered_courses" EntitySet="Registered_courses" />
+          </AssociationSet>
+          <EntitySet Name="Home_page" EntityType="OnlineTrainingDBModel.Home_page" />
+        </EntityContainer>
+        <EntityType Name="Home_page">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainingName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Fees" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OnlineTrainingDBModelStoreContainer" CdmEntityContainer="OnlineTrainingDBEntities">
+          <EntitySetMapping Name="Course_Registration">
+            <EntityTypeMapping TypeName="OnlineTrainingDBModel.Course_Registration">
+              <MappingFragment StoreEntitySet="Course_Registration">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TrainingName" ColumnName="TrainingName" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registered_courses">
+            <EntityTypeMapping TypeName="OnlineTrainingDBModel.Registered_courses">
+              <MappingFragment StoreEntitySet="Registered_courses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TrainingName" ColumnName="TrainingName" />
+                <ScalarProperty Name="Course_id" ColumnName="Course_id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Registration">
+            <EntityTypeMapping TypeName="OnlineTrainingDBModel.User_Registration">
+              <MappingFragment StoreEntitySet="User_Registration">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Home_page">
+            <EntityTypeMapping TypeName="OnlineTrainingDBModel.Home_page">
+              <MappingFragment StoreEntitySet="Home_page">
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="TrainingName" ColumnName="TrainingName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
